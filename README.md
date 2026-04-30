@@ -182,6 +182,9 @@ a ejecutar con la biblioteca `doctest`:
 Inserte a continuación una captura de pantalla que muestre el resultado de ejecutar el
 fichero `aleatorios.py` con la opción *verbosa*, de manera que se muestre el
 resultado de la ejecución de los tests unitarios.
+<img width="1152" height="1052" alt="Captura de pantalla 2026-04-30 175533" src="https://github.com/user-attachments/assets/bde07b6c-8411-4e4e-b10f-5fceb7dd1b9c" />
+<img width="1185" height="1065" alt="Captura de pantalla 2026-04-30 175522" src="https://github.com/user-attachments/assets/8f5d0097-c493-40d5-828e-9d7317b41b4a" />
+
 
 #### Código desarrollado
 
