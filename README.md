@@ -287,7 +287,6 @@ if __name__ == "__main__":
     # Ejecución de las pruebas de documentación automáticas
     import doctest
     doctest.testmod(verbose=True)
-
 #### Subida del resultado al repositorio GitHub y *pull-request*
 
 La entrega se formalizará mediante *pull request* al repositorio de la tarea.
