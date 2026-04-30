@@ -188,23 +188,27 @@ resultado de la ejecución de los tests unitarios.
 Inserte a continuación el código de los métodos desarrollados en esta tarea, usando los
 comandos necesarios para que se realice el realce sintáctico en Python del mismo (no
 vale insertar una imagen o una captura de pantalla, debe hacerse en formato *markdown*).
+"""
+aleatorios.py 
+"""
+
 class Aleat:
     """
-    Implementación de un generador de secuencias pseudoaleatorias mediante una clase.
+    clase que implementa un generador de números aleatorios.
 
-    Parámetros de estado:
-    m (int): El divisor o módulo.
-    a (int): El factor multiplicador.
-    c (int): El valor de incremento.
-    x (int): El valor actual en la secuencia (semilla o último dato).
+    atributos:
+    m(int) modulo.
+    a(int) multiplicador.
+    c(int) incremento.
+    x(int) estado actual (semilla/último número generado).
 
-    Funcionalidades:
-    __init__: Configura los valores iniciales del algoritmo.
-    __next__: Procesa y entrega el siguiente dato de la serie.
-    __iter__: Permite que el objeto sea tratado como un iterador.
-    __call__: Permite redefinir la semilla actual llamando al objeto.
+    métodos:
+    __init__ inicializa los parámetros del generador.
+    __next__ calcula y devuelve el siguiente número de la secuencia.
+    __iter__ devuelve el propio objeto como iterador.
+    __call__ reinicia la secuencia con una nueva semilla.
     
-    Validaciones (doctest):
+    Pruebas unitarias:
     >>> rand = Aleat(m=32, a=9, c=13, x0=11)
     >>> for _ in range(4):
     ...     print(next(rand))
@@ -222,40 +226,39 @@ class Aleat:
     """
 
     def __init__(self, *, m=2**48, a=25214903917, c=11, x0=1212121):
-        # Asignación de parámetros de configuración
+
         self.m = m
         self.a = a
         self.c = c
         self.x = x0
 
     def __iter__(self):
-        # El objeto se retorna a sí mismo para la iteración
+
         return self
 
     def __next__(self):
-        # Algoritmo de congruencia lineal para actualizar el estado
+        
         self.x = (self.a * self.x + self.c) % self.m
         return self.x
 
     def __call__(self, x0, /):
-        # Actualización manual del estado (semilla)
-        self.x = x0
 
+        self.x = x0
 
 def aleat(*, m=2**48, a=25214903917, c=11, x0=1212121):
     """
-    Generador de números aleatorios implementado como una función yield.
+    función generadora de números aleatorios.
 
-    Variables de entrada:
-    m (int): Valor del módulo (estándar POSIX por defecto).
-    a (int): Valor del multiplicador (estándar POSIX por defecto).
-    c (int): Valor del incremento (estándar POSIX por defecto).
-    x0 (int): Valor inicial de la serie.
+    argumentos:
+    m(int) módulo (por defecto POSIX).
+    a(int) multiplicador (por defecto POSIX).
+    c(int) incremento (por defecto POSIX).
+    x0(int) semilla inicial.
 
-    Retorna:
-    int: Produce el siguiente valor calculado en la secuencia.
+    yields:
+    int el siguiente número pseudoaleatorio de la secuencia.
 
-    Validaciones (doctest):
+    Pruebas unitarias:
     >>> rand = aleat(m=64, a=5, c=46, x0=36)
     >>> for _ in range(4):
     ...     print(next(rand))
@@ -275,16 +278,12 @@ def aleat(*, m=2**48, a=25214903917, c=11, x0=1212121):
 
     x = x0
     while True:
-        # Cálculo del nuevo número pseudoaleatorio
         x = (a * x + c) % m
-        # Envío del valor y recepción de una posible nueva semilla
         recibido = yield x
         if recibido is not None:
             x = recibido
 
-
 if __name__ == "__main__":
-    # Ejecución de las pruebas de documentación automáticas
     import doctest
     doctest.testmod(verbose=True)
 #### Subida del resultado al repositorio GitHub y *pull-request*
