@@ -188,6 +188,105 @@ resultado de la ejecución de los tests unitarios.
 Inserte a continuación el código de los métodos desarrollados en esta tarea, usando los
 comandos necesarios para que se realice el realce sintáctico en Python del mismo (no
 vale insertar una imagen o una captura de pantalla, debe hacerse en formato *markdown*).
+class Aleat:
+    """
+    Implementación de un generador de secuencias pseudoaleatorias mediante una clase.
+
+    Parámetros de estado:
+    m (int): El divisor o módulo.
+    a (int): El factor multiplicador.
+    c (int): El valor de incremento.
+    x (int): El valor actual en la secuencia (semilla o último dato).
+
+    Funcionalidades:
+    __init__: Configura los valores iniciales del algoritmo.
+    __next__: Procesa y entrega el siguiente dato de la serie.
+    __iter__: Permite que el objeto sea tratado como un iterador.
+    __call__: Permite redefinir la semilla actual llamando al objeto.
+    
+    Validaciones (doctest):
+    >>> rand = Aleat(m=32, a=9, c=13, x0=11)
+    >>> for _ in range(4):
+    ...     print(next(rand))
+    16
+    29
+    18
+    15
+    >>> rand(29)
+    >>> for _ in range(4):
+    ...     print(next(rand))
+    18
+    15
+    20
+    1
+    """
+
+    def __init__(self, *, m=2**48, a=25214903917, c=11, x0=1212121):
+        # Asignación de parámetros de configuración
+        self.m = m
+        self.a = a
+        self.c = c
+        self.x = x0
+
+    def __iter__(self):
+        # El objeto se retorna a sí mismo para la iteración
+        return self
+
+    def __next__(self):
+        # Algoritmo de congruencia lineal para actualizar el estado
+        self.x = (self.a * self.x + self.c) % self.m
+        return self.x
+
+    def __call__(self, x0, /):
+        # Actualización manual del estado (semilla)
+        self.x = x0
+
+
+def aleat(*, m=2**48, a=25214903917, c=11, x0=1212121):
+    """
+    Generador de números aleatorios implementado como una función yield.
+
+    Variables de entrada:
+    m (int): Valor del módulo (estándar POSIX por defecto).
+    a (int): Valor del multiplicador (estándar POSIX por defecto).
+    c (int): Valor del incremento (estándar POSIX por defecto).
+    x0 (int): Valor inicial de la serie.
+
+    Retorna:
+    int: Produce el siguiente valor calculado en la secuencia.
+
+    Validaciones (doctest):
+    >>> rand = aleat(m=64, a=5, c=46, x0=36)
+    >>> for _ in range(4):
+    ...     print(next(rand))
+    34
+    24
+    38
+    44
+    >>> rand.send(24)
+    38
+    >>> for _ in range(4):
+    ...     print(next(rand))
+    44
+    10
+    32
+    14
+    """
+
+    x = x0
+    while True:
+        # Cálculo del nuevo número pseudoaleatorio
+        x = (a * x + c) % m
+        # Envío del valor y recepción de una posible nueva semilla
+        recibido = yield x
+        if recibido is not None:
+            x = recibido
+
+
+if __name__ == "__main__":
+    # Ejecución de las pruebas de documentación automáticas
+    import doctest
+    doctest.testmod(verbose=True)
 
 #### Subida del resultado al repositorio GitHub y *pull-request*
 
